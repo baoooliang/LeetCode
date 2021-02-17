@@ -1,0 +1,23 @@
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        
+        memo = {}
+        def dfs(rest):
+            if rest in memo:
+                return memo[rest]
+            if not rest:
+                return []
+            res = []
+            for word in wordDict:
+                if not rest.startswith(word):
+                    continue
+                if rest == word:
+                    res.append(word)
+                else:
+                    resultOfRest = dfs(rest[len(word):])
+                    for r in resultOfRest:
+                        res.append(f'{word} {r}')
+                memo[rest] = res
+            
+            return res
+        return dfs(s)
